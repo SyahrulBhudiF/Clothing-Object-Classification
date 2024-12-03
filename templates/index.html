@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YOLOv8 Pakaian Prediction</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center py-10">
+<div class="bg-white shadow-lg rounded-lg p-8 max-w-2xl w-full">
+    <h1 class="text-2xl font-bold mb-4 text-center">Deteksi Jenis Pakaian</h1>
+    <form method="POST" enctype="multipart/form-data" class="space-y-4">
+        <input
+                type="file"
+                name="image"
+                accept="image/*"
+                class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                required
+                onchange="previewImage(event)">
+        <button
+                type="submit"
+                class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+            Upload & Predict
+        </button>
+    </form>
+
+    {% if image_path %}
+    <div class="mt-6">
+        <h2 class="text-lg font-semibold">Uploaded Image:</h2>
+        <img id="preview" src="{{ image_path }}" alt="Uploaded Image" class="rounded mt-4 mx-auto max-h-80">
+    </div>
+    {% endif %}
+
+    {% if predictions %}
+    <div class="mt-6">
+        <h2 class="text-lg font-semibold">Predictions:</h2>
+        <ul class="list-disc list-inside mt-4">
+            {% for pred in predictions %}
+            <li class="text-gray-700">
+                Jenis: <span class="font-medium text-blue-600">{{ pred.class }}</span> |
+                Confidence: <span class="font-medium">{{ pred.confidence }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function () {
+            const output = document.getElementById('preview');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
+</body>
+</html>
