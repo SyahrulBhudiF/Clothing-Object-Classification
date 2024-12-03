@@ -1,8 +1,10 @@
 # Use the official Python slim image
 FROM python:3.11-slim
 
-# Install system dependencies (e.g., libGL for OpenCV)
-RUN apt-get update && apt-get install -y libgl1-mesa-glx
+# Install system dependencies (e.g., libGL for OpenCV and GLib for missing libgthread)
+RUN apt-get update && apt-get install -y \
+    libglib2.0-0 \
+    libgl1-mesa-glx
 
 # Set the working directory inside the container
 WORKDIR /app
