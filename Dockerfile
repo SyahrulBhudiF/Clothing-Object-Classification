@@ -1,5 +1,5 @@
 # Use the official Python slim image
-FROM python:3.11-slim
+FROM python:3.13
 
 # Install system dependencies (e.g., libGL for OpenCV and GLib for missing libgthread)
 RUN apt-get update && apt-get install -y \
